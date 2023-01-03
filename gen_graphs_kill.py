@@ -12,8 +12,6 @@ if __name__ == "__main__":
     w_high = int(sys.argv[5])
     bias_scalar = int(sys.argv[6])
 
-    w = gen_w(w_low, w_high)
-
     print(test_num)
 
     for test in range(test_num): 
@@ -21,9 +19,9 @@ if __name__ == "__main__":
         print(n)
         assert w_low >= 0 and w_high >= 0, "value_lim must not be negative"
         for i in range(n): 
-            print(w * bias_scalar, end = " " if i + 1 < n else "\n")
+            print(gen_w(w_low, w_high) * bias_scalar, end = " " if i + 1 < n else "\n")
         
         for i in range(n): 
             for j in range(i + 1, n): 
-                print(w)
+                print(gen_w(w_low, w_high))
 
