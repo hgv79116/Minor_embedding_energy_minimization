@@ -10,7 +10,7 @@ import csv
 
 EPS = 0.0001
 CUTOFF = 15
-RATIO = 0.22
+RATIO = 0.25
 
 def read_input(n): 
     h = {}
@@ -135,7 +135,7 @@ def solve_convert_qpu(h, J, n, chain_strength):
             converted_model = BinaryQuadraticModel(h_, J_, offset, SPIN)
             try: 
                 sampler = FixedEmbeddingComposite(DWaveSampler(solver='DW_2000Q_6'), embedding=embedding)
-                qpu_sampleset = sampler.sample(converted_model, chain_strength = chain_strength, num_reads = 100, label = "custom_embedding_qpu_sampleset")
+                qpu_sampleset = sampler.sample(converted_model, chain_strength = chain_strength, num_reads = 500, label = "custom_embedding_qpu_sampleset")
 
                 print("embedding found. problem solved.")
                 break
@@ -178,14 +178,14 @@ if __name__ == "__main__":
             original_model = BinaryQuadraticModel(h, J, 0, SPIN)
 
             chain_strength = get_my_chain_strength(n, h, J)
-            convert_cpu_result = solve_convert_cpu(h, J, n, chain_strength)
+            # convert_cpu_result = solve_convert_cpu(h, J, n, chain_strength)
             my_result, _ = solve_convert_qpu(h, J, n, chain_strength)
 
             results["exact_result"] = exact_result
-            results["convert_cpu_result"] = convert_cpu_result
+            # results["convert_cpu_result"] = convert_cpu_result
             results["my_result"] = my_result
             results["chain_strength"] = chain_strength
-            results["COMPARE"] = "AC" if abs(exact_result - min(convert_cpu_result, my_result)) <= 1e-6 else "WA"
+            results["COMPARE"] = "AC" if abs(exact_result - my_result) <= 1e-6 else "WA"
 
             writer.writerow([value for value in results.values()])
             print("-----------------------------------------------------------------------------")

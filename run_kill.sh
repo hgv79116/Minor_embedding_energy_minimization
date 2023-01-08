@@ -1,2 +1,2 @@
-python gen_graphs_kill.py 10 11 13 6 10 0 > graphs.txt
+python gen_graphs_kill.py 20 12 15 16 20 0 > graphs.txt
 python run.py < graphs.txt > results.txt
